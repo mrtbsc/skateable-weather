@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skateable weather? with JQuery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+        }
+
+        #place {
+            font-size: 2em;
+            margin: 0.5em;
+        }
+
+        span {
+            border: solid gray 2px;
+            border-radius: 3%;
+            padding: 6px;
+            margin: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;  
+            background-color:palegoldenrod;       
+        }
+        .wrapper {
+            border-radius: 10px;
+            background-color: rgb(239, 238, 225);
+            padding: 10px;
+            margin-top: 8px;
+        }
+        .forecastSlot {
+            display: flex;
+            flex-flow: row;
+        }
+
+        .hidden-wrapper {
+            display: none;
+        }
+
+        #past-alert {
+            border-radius: 10px;
+            background-color: rgb(239, 203, 92);
+            border: solid rgb(171, 152, 55) 1px;
+            padding: 3px;
+            display: none;
+        }
+
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+</head>
+
+<body>
+    <h1>Is the weather going to let me skate?</h1>
+    <form id="searchForm">
+        <label for="city">Where do you want to skate?</label>
+        <input type="text" id="city" name="city" placeholder="Type city/town here" >
+        <button>Search</button>
+    </form>
+
+    <h3 id="foundPlace"></h3>
+    <div id="forecasts">
+        <div id="past-alert" class="wrapper">
+            It rained/snowed Yerterday ❕
+            <div id="yesterday" class="forecastSlot"></div> 
+        </div>
+
+        <div class="hidden-wrapper wrapper">
+            Today
+            <div id="today" class="forecastSlot"></div>
+        </div>
+
+        <div class="hidden-wrapper wrapper">
+            Tomorrow
+            <div id="tomorrow" class="forecastSlot"></div>
+        </div>
+
+        <div class="hidden-wrapper wrapper">
+            Next Days
+            <div id="week" class="forecastSlot"></div>
+        </div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src='../../config.js'></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
