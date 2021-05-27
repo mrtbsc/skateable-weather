@@ -14,7 +14,7 @@ const DOM = {
   resetSlots: function () {
     DOM.hidePastAlert();
     $(".hidden-slot").removeClass("hidden-slot");
-    $("forecastSlot").removeClass("bg-blue");
+    $(".forecastSlot").removeClass("bg-blue");
     $(".card-group").html("");
   },
 
