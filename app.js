@@ -1,5 +1,7 @@
 const today = new Date();
 const yesterday = new Date(today - 24 * 3600 * 1000);
+const mqKey = process.env.MQ_KEY;
+const owKey = process.env.OW_KEY;
 
 $("#searchForm").on("submit", async function (e) {
   e.preventDefault();
@@ -11,7 +13,7 @@ $("#searchForm").on("submit", async function (e) {
   //2. Get its coordinates
   const requestConfig = { params: { location: STATUS.targetPlace } };
   let response = await axios.get(
-    "http://open.mapquestapi.com/geocoding/v1/address?key=" + keys.MQ,
+    "http://open.mapquestapi.com/geocoding/v1/address?key=" + mqKey,
     requestConfig
   );
   STATUS.coordinates = UTILS.extractCoordinates(response);
@@ -24,7 +26,7 @@ $("#searchForm").on("submit", async function (e) {
   axios
     .get(
       "http://open.mapquestapi.com/nominatim/v1/reverse.php?format=json&key=" +
-        keys.MQ,
+        mqKey,
       requestConfig2
     )
     .then((response) => {
@@ -35,7 +37,7 @@ $("#searchForm").on("submit", async function (e) {
   //3. Get the forecasts for those coordinates (for next 48h + for next 7 days)
   let { data } = await axios.get(
     "https://api.openweathermap.org/data/2.5/onecall?exclude=minutely,alerts,current&units=metric&appid=" +
-      keys.OW,
+      owKey,
     requestConfig2
   );
 
@@ -50,7 +52,7 @@ $("#searchForm").on("submit", async function (e) {
   requestConfig2.params.dt = UTILS.jsToOpenWeather(yesterday);
   response = await axios.get(
     "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&appid=" +
-      keys.OW,
+      owKey,
     requestConfig2
   );
   STATUS.pastWeather = UTILS.extractFilteredWeather(response);
