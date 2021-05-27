@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skateable weather? with JQuery</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <h1>Is the weather going to let me skate?</h1>
+    <form id="searchForm">
+      <label for="city">Where do you want to skate?</label>
+      <input
+        type="text"
+        id="city"
+        name="city"
+        placeholder="Type city/town here"
+      />
+      <button>Search</button>
+    </form>
+
+    <h3 id="foundPlace"></h3>
+    <div id="forecasts">
+      <div id="past-alert" class="wrapper" style="display: inline-block">
+        <div class="wrapper-title">It rained/snowed Yerterday ❕</div>
+        <div id="yesterday" class="forecasts-group">
+          <span
+            >2h<br />0 mm of rain<br />8°C<img src="./images/02n.png" /></span
+          ><span
+            >3h<br />0 mm of rain<br />8°C<img src="./images/01n.png" /></span
+          ><span
+            >4h<br />0 mm of rain<br />8°C<img src="./images/01n.png" /></span
+          ><span
+            >5h<br />0 mm of rain<br />8°C<img src="./images/01n.png" /></span
+          ><span
+            >6h<br />0 mm of rain<br />8°C<img src="./images/02n.png" /></span
+          ><span
+            >7h<br />0 mm of rain<br />8°C<img src="./images/02d.png" /></span
+          ><span
+            >8h<br />0 mm of rain<br />9°C<img src="./images/02d.png" /></span
+          ><span
+            >9h<br />0 mm of rain<br />10°C<img src="./images/03d.png" /></span
+          ><span
+            >10h<br />0 mm of rain<br />11°C<img src="./images/03d.png" /></span
+          ><span
+            >11h<br />1.27 mm of rain<br />11°C<img
+              src="./images/10d.png" /></span
+          ><span
+            >12h<br />0 mm of rain<br />12°C<img src="./images/03d.png" /></span
+          ><span
+            >13h<br />0 mm of rain<br />13°C<img src="./images/04d.png" /></span
+          ><span
+            >14h<br />0 mm of rain<br />13°C<img src="./images/04d.png" /></span
+          ><span
+            >15h<br />0 mm of rain<br />13°C<img src="./images/03d.png" /></span
+          ><span
+            >16h<br />1.52 mm of rain<br />12°C<img
+              src="./images/10d.png" /></span
+          ><span
+            >17h<br />0.74 mm of rain<br />13°C<img
+              src="./images/10d.png" /></span
+          ><span
+            >18h<br />0 mm of rain<br />12°C<img src="./images/04d.png" /></span
+          ><span
+            >19h<br />0 mm of rain<br />13°C<img src="./images/04d.png" /></span
+          ><span
+            >20h<br />0.51 mm of rain<br />12°C<img
+              src="./images/10d.png" /></span
+          ><span
+            >21h<br />0 mm of rain<br />12°C<img src="./images/04d.png" /></span
+          ><span
+            >22h<br />0 mm of rain<br />11°C<img src="./images/03d.png" /></span
+          ><span
+            >23h<br />0 mm of rain<br />10°C<img src="./images/03n.png" /></span
+          ><span
+            >0h<br />0 mm of rain<br />8°C<img src="./images/02n.png" /></span
+          ><span
+            >1h<br />0 mm of rain<br />7°C<img src="./images/02n.png"
+          /></span>
+        </div>
+      </div>
+
+      <div class="wrapper">
+        <div class="wrapper-title">Today</div>
+        <div id="today" class="forecasts-group">
+          <span
+            >14h<br />0% chance of rain<br />14°C<img
+              src="./images/03d.png" /></span
+          ><span
+            >15h<br />0% chance of rain<br />14°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >16h<br />0% chance of rain<br />14°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >17h<br />0% chance of rain<br />14°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >18h<br />0% chance of rain<br />14°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >19h<br />0% chance of rain<br />14°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >20h<br />0% chance of rain<br />14°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >21h<br />10% chance of rain<br />13°C<img
+              src="./images/01d.png" /></span
+          ><span
+            >22h<br />0% chance of rain<br />11°C<img
+              src="./images/01d.png" /></span
+          ><span
+            >23h<br />0% chance of rain<br />9°C<img src="./images/01n.png"
+          /></span>
+        </div>
+      </div>
+
+      <div class="wrapper">
+        <div class="wrapper-title">Tomorrow</div>
+        <div id="tomorrow" class="forecasts-group">
+          <span
+            >0h<br />0% chance of rain<br />8°C<img
+              src="./images/01n.png" /></span
+          ><span
+            >1h<br />0% chance of rain<br />8°C<img
+              src="./images/01n.png" /></span
+          ><span
+            >2h<br />0% chance of rain<br />8°C<img
+              src="./images/01n.png" /></span
+          ><span
+            >3h<br />0% chance of rain<br />7°C<img
+              src="./images/02n.png" /></span
+          ><span
+            >4h<br />0% chance of rain<br />7°C<img
+              src="./images/02n.png" /></span
+          ><span
+            >5h<br />0% chance of rain<br />7°C<img
+              src="./images/02n.png" /></span
+          ><span
+            >6h<br />0% chance of rain<br />7°C<img
+              src="./images/02n.png" /></span
+          ><span
+            >7h<br />0% chance of rain<br />7°C<img
+              src="./images/02d.png" /></span
+          ><span
+            >8h<br />0% chance of rain<br />10°C<img
+              src="./images/02d.png" /></span
+          ><span
+            >9h<br />0% chance of rain<br />12°C<img
+              src="./images/02d.png" /></span
+          ><span
+            >10h<br />0% chance of rain<br />13°C<img
+              src="./images/02d.png" /></span
+          ><span
+            >11h<br />0% chance of rain<br />14°C<img
+              src="./images/03d.png" /></span
+          ><span
+            >12h<br />0% chance of rain<br />15°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >13h<br />0% chance of rain<br />15°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >14h<br />0% chance of rain<br />15°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >15h<br />0% chance of rain<br />15°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >16h<br />0% chance of rain<br />15°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >17h<br />0% chance of rain<br />15°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >18h<br />0% chance of rain<br />13°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >19h<br />10% chance of rain<br />12°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >20h<br />30% chance of rain<br />11°C<img
+              src="./images/10d.png" /></span
+          ><span
+            >21h<br />30% chance of rain<br />10°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >22h<br />30% chance of rain<br />10°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >23h<br />20% chance of rain<br />10°C<img src="./images/04n.png"
+          /></span>
+        </div>
+      </div>
+
+      <div class="wrapper">
+        <div class="wrapper-title">Next Days</div>
+        <div id="week" class="forecasts-group">
+          <span
+            >Fri<br />28 May<br />100% chance of rain<br />12°C<img
+              src="./images/10d.png" /></span
+          ><span
+            >Sat<br />29 May<br />10% chance of rain<br />14°C<img
+              src="./images/04d.png" /></span
+          ><span
+            >Sun<br />30 May<br />0% chance of rain<br />15°C<img
+              src="./images/01d.png" /></span
+          ><span
+            >Mon<br />31 May<br />0% chance of rain<br />14°C<img
+              src="./images/01d.png" /></span
+          ><span
+            >Tue<br />1 Jun<br />0% chance of rain<br />16°C<img
+              src="./images/04d.png"
+          /></span>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../config.js"></script>
+    <script src="DOM.js"></script>
+    <script src="status.js"></script>
+    <script src="utils.js"></script>
+    <script src="appConfig.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

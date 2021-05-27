@@ -1,102 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skateable weather? with JQuery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
-
-    <style>
-        * {
-            font-family: 'Roboto', sans-serif;
-            text-align: center;
-        }
-
-        #place {
-            font-size: 2em;
-            margin: 0.5em;
-        }
-
-        span {
-            border: solid gray 2px;
-            border-radius: 3%;
-            padding: 6px;
-            margin: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;  
-            background-color:palegoldenrod;       
-        }
-        .wrapper {
-            border-radius: 10px;
-            background-color: rgb(239, 238, 225);
-            padding: 10px;
-            margin-top: 8px;
-        }
-        .forecastSlot {
-            display: flex;
-            flex-flow: row;
-        }
-
-        .hidden-wrapper {
-            display: none;
-        }
-
-        #past-alert {
-            border-radius: 10px;
-            background-color: rgb(239, 203, 92);
-            border: solid rgb(171, 152, 55) 1px;
-            padding: 3px;
-            display: none;
-        }
-
-
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/style-bootstrap.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
 
+  <body>
+    <!-- QUESTION -->
+    <section id="question">
+      <div class="container text-center py-2 py-md-4">
+        <h3 id="title">Skateble weather?</h3>
 
-</head>
+        <form id="searchForm" class="form-inline">
+          <div class="form-group">
+            <input
+              type="text"
+              id="city"
+              class="form-control mr-2"
+              name="city"
+              placeholder="type city/town you want to skate"
+            />
+            <button type="submit" class="btn btn-primary form-element">
+              Search
+            </button>
+          </div>
+        </form>
 
-<body>
-    <h1>Is the weather going to let me skate?</h1>
-    <form id="searchForm">
-        <label for="city">Where do you want to skate?</label>
-        <input type="text" id="city" name="city" placeholder="Type city/town here" >
-        <button>Search</button>
-    </form>
+        <h5 id="foundPlace" class="pt-3"></h5>
+      </div>
+    </section>
 
-    <h3 id="foundPlace"></h3>
+    <!-- FORECAST DISPLAY  -->
+    <section id="response">
+      <div class="container-fluid">
+        <div class="row">
+          <div
+            id="yesterdaySlot"
+            class="forecastSlot hidden-slot p-2 col col-md-12 bg-blue"
+          >
+            <h5 class="">
+              It rained yesterday! <br />
+              See mm of rain ⬇
+            </h5>
+            <div
+              id="yesterday"
+              class="card-group pb-3 flex-nowrap"
+              style="overflow: auto"
+            ></div>
+          </div>
+
+          <div
+            id="todaySlot"
+            class="forecastSlot hidden-slot p-2 col col-md-12"
+          >
+            <h5 class="">Today</h5>
+            <div
+              id="today"
+              class="card-group pb-3 flex-nowrap"
+              style="overflow: auto"
+            ></div>
+          </div>
+
+          <div
+            id="tomorrowSlot"
+            class="forecastSlot hidden-slot p-2 col col-md-12"
+          >
+            <h5 class="">Tomorrow</h5>
+            <div
+              id="tomorrow"
+              class="card-group pb-3 flex-nowrap"
+              style="overflow: auto"
+            ></div>
+          </div>
+
+          <div
+            id="nextDaysSlot"
+            class="forecastSlot hidden-slot p-2 col col-md-12"
+          >
+            <h5 class="">Next Days</h5>
+            <div
+              id="nextDays"
+              class="card-group pb-3 flex-nowrap"
+              style="overflow: auto"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 
+      
     <div id="forecasts">
-        <div id="past-alert" class="wrapper">
-            It rained/snowed Yerterday ❕
-            <div id="yesterday" class="forecastSlot"></div> 
-        </div>
-
-        <div class="hidden-wrapper wrapper">
-            Today
-            <div id="today" class="forecastSlot"></div>
-        </div>
-
-        <div class="hidden-wrapper wrapper">
-            Tomorrow
-            <div id="tomorrow" class="forecastSlot"></div>
-        </div>
-
-        <div class="hidden-wrapper wrapper">
-            Next Days
-            <div id="week" class="forecastSlot"></div>
-        </div>
+      <div id="past-alert" class="hidden-wrapper wrapper">
+        <div class="wrapper-title">It rained/snowed Yerterday ❕</div>
+        <div id="yesterday" class="forecasts-group"></div>
+      </div>
+      
+      <div class="hidden-wrapper wrapper">
+      <div class="wrapper-title">Today</div>
+      <div id="today" class="forecasts-group"></div>
     </div>
-    
+
+    <div class="hidden-wrapper wrapper">
+      <div class="wrapper-title">Tomorrow</div>
+      <div id="tomorrow" class="forecasts-group"></div>
+    </div>
+
+    <div class="hidden-wrapper wrapper">
+      <div class="wrapper-title">Next Days</div>
+      <div id="week" class="forecasts-group"></div>
+    </div> -->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src='../config.js'></script>
-    <script src="DOM.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+      integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../config.js"></script>
+    <script src="DOM-bootstrap.js"></script>
     <script src="status.js"></script>
     <script src="utils.js"></script>
     <script src="appConfig.js"></script>
     <script src="app.js"></script>
-</body>
-
+  </body>
 </html>

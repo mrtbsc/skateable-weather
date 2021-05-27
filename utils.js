@@ -97,7 +97,9 @@ const UTILS = {
     let { isHourly, isPast } = configuration;
 
     return array.map(function (interval) {
-      let recievedMms = isPast && interval.rain ? interval.rain["1h"] : 0;
+      let recievedMms =
+        isPast && interval.rain ? Math.round(interval.rain["1h"], -1) : 0;
+      let hasPrecipitation = UTILS.hasPrecipitation(interval.weather[0].id);
       return {
         date: new Date(1000 * interval.dt),
         degrees:
@@ -108,7 +110,13 @@ const UTILS = {
         rainProb: isPast ? null : Math.round(interval.pop * 10) * 10,
         mmsOfRain: isPast ? recievedMms : null,
         weatherId: interval.weather[0].id,
+        hasPrecipitation,
       };
     });
+  },
+
+  // Returns true if a weather id involves rain or snow
+  hasPrecipitation: function (id) {
+    return id >= 200 && id <= 622 && ![210, 211, 212, 221].includes(id);
   },
 };

@@ -1,10 +1,10 @@
 const DOM = {
   getInputedPlace: function () {
-    return $("input").val();
+    return $("#question input").val();
   },
 
   emptyPlaceInput: function () {
-    $("input").val("");
+    $("#question input").val("");
   },
 
   showFoundPlace: function (place) {
@@ -13,16 +13,17 @@ const DOM = {
 
   resetSlots: function () {
     DOM.hidePastAlert();
-    console.log($(".hidden-wrapper").removeClass("hidden-wrapper")) ||
-      $(".forecasts-group").html("");
+    $(".hidden-slot").removeClass("hidden-slot");
+    $("forecastSlot").removeClass("bg-blue");
+    $(".card-group").html("");
   },
 
   showPastAlert: function () {
-    $("#past-alert").css("display", "inline-block");
+    $("#yesterdaySlot").css("display", "inline-block");
   },
 
   hidePastAlert: function () {
-    $("#past-alert").hide();
+    $("#yesterdaySlot").hide();
   },
 
   //loop for each timestamp which we have a weather forecast for
@@ -33,25 +34,43 @@ const DOM = {
       let dateString = isNextDays
         ? this.stringifyDay(interval.date)
         : this.stringifyHour(interval.date);
-      let rainString = isPast
-        ? interval.mmsOfRain + " mm of rain"
-        : interval.rainProb + "% chance of rain";
-      let text =
-        dateString + "<br>" + rainString + "<br>" + interval.degrees + "°C";
-      let newSpan = $("<span class='forecast'>" + text + "</span>");
-      let newImg = $("<img>");
+      let rainMeasurement = isPast ? interval.mmsOfRain : interval.rainProb;
+      let rainDescription = isPast ? " mms" : "%";
+
+      let newCardHour = $("<div class='card-hour'>" + dateString + "</div>");
+      let newImg = $("<img class='img-fluid' />");
       newImg.attr("src", interval.iconPath);
-      newSpan.append(newImg);
 
-      let container = isToday
-        ? $("#today")
+      let newCardBody = $('<div class="card-body text-dark pb-1">');
+      let newCardTitle = $(
+        '<h5 class="card-title mb-0 pt-1">' + rainMeasurement + "</h5>"
+      );
+      newCardTitle.append($("<small>" + rainDescription + "</small>"));
+      let newCardText = $(
+        '<p class="card-text"> ' + interval.degrees + " ºC</p>"
+      );
+      newCardBody.append(newCardTitle);
+      newCardBody.append(newCardText);
+
+      let newForecast = $("<div class='card'></div>");
+      newForecast.append(newCardHour);
+      newForecast.append(newImg);
+      newForecast.append(newCardBody);
+
+      let [container, forecastSlot] = isToday
+        ? [$("#today"), $("#todaySlot")]
         : isTomorrow
-        ? $("#tomorrow")
+        ? [$("#tomorrow"), $("#tomorrowSlot")]
         : isNextDays
-        ? $("#week")
-        : $("#yesterday");
+        ? [$("#nextDays"), $("#nextDaysSlot")]
+        : [$("#yesterday"), $("#yesterdaySlot")];
 
-      container.append(newSpan);
+      if (interval.hasPrecipitation) {
+        newForecast.addClass("bg-blue");
+        forecastSlot.addClass("bg-blue");
+      }
+
+      container.append(newForecast);
     }
   },
 

@@ -1,0 +1,58 @@
+* {
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+}
+
+/** QUESTION **/
+
+#question .form-group {
+  margin: 0 auto;
+}
+
+#question input {
+  color: green;
+  min-width: 300px;
+}
+
+/** FORECASTS DISPLAY **/
+span {
+  border: solid gray 2px;
+  border-radius: 3%;
+  padding: 6px;
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: palegoldenrod;
+}
+.wrapper {
+  border-radius: 10px;
+  background-color: rgb(239, 238, 225);
+  padding: 10px;
+  margin-top: 8px;
+
+  display: inline-block;
+}
+
+.wrapper-title {
+  width: 100vw;
+  text-align: center;
+}
+
+.forecasts-group {
+  display: flex;
+  flex-flow: row;
+}
+
+.hidden-wrapper {
+  display: none;
+}
+
+#past-alert {
+  border-radius: 10px;
+  background-color: rgb(239, 203, 92);
+  border: solid rgb(171, 152, 55) 1px;
+  padding: 3px;
+  display: none;
+}

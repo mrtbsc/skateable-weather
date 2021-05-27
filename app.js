@@ -46,6 +46,7 @@ $("#searchForm").on("submit", async function (e) {
 
   //4. Get the weather from the day before
   // (incase they alert possible wet floor)
+
   requestConfig2.params.dt = UTILS.jsToOpenWeather(yesterday);
   response = await axios.get(
     "https://api.openweathermap.org/data/2.5/onecall/timemachine?units=metric&appid=" +
@@ -55,7 +56,7 @@ $("#searchForm").on("submit", async function (e) {
   STATUS.pastWeather = UTILS.extractFilteredWeather(response);
   STATUS.wasItRainny = UTILS.getPastRain(STATUS.pastWeather);
 
-  //6. Exhibit hidden forecastSlots or clear them from previous displays
+  //6. Exhibit hidden forecast groups or clear them from previous displays
   DOM.resetSlots();
 
   //7. Display current forecasts
@@ -64,8 +65,8 @@ $("#searchForm").on("submit", async function (e) {
   DOM.display(STATUS.nextDaysForecast, { isNextDays: true });
 
   //8. Display past weather if it has rained recently
-  if (STATUS.wasItRainny) {
-    DOM.showPastAlert();
-    DOM.display(STATUS.nextDaysForecast, { isPast: true });
-  }
+  // if (STATUS.wasItRainny) {
+  //   DOM.showPastAlert();
+  //   DOM.display(STATUS.pastWeather, { isPast: true });
+  // }
 });
